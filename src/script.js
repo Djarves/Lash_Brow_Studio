@@ -1,94 +1,40 @@
-// Бургер меню
 const burger = document.querySelector('.header__burger');
 const nav = document.querySelector('.header__nav');
 const overlay = document.querySelector('.overlay');
 const body = document.body;
 
-
-// Открытие / закрытие меню
-const toggleMenu = () => {
-  burger.classList.toggle('active'); // крестик
-  nav.classList.toggle('active');    // меню
-  overlay.classList.toggle('active'); // затемнение
-  body.classList.toggle('lock');     // блокировка скролла
-};
-
-burger.addEventListener('click', toggleMenu);
-overlay.addEventListener('click', toggleMenu);
-
-// Плавный скролл по якорям + меню не закрывается крестиком
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
- 
-  });
-});
-
-
-// Плавный скролл + закрытие меню
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-
-    const target = document.querySelector(this.getAttribute('href'));
-
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth'
-      });
-
-      // 🔥 закрываем меню
-      nav.classList.remove('active');
-      burger.classList.remove('active');
-      document.body.classList.remove('lock');
-    }
-  });
-});
-
+// открытие/закрытие меню по бургеру
 burger.addEventListener('click', () => {
   burger.classList.toggle('active');
   nav.classList.toggle('active');
-  document.body.classList.toggle('lock');
+  overlay.classList.toggle('active');
+  body.classList.toggle('lock');
 });
 
-document.addEventListener('click', (e) => {
-  const isClickInsideNav = nav.contains(e.target);
-  const isClickBurger = burger.contains(e.target);
-
-  if (!isClickInsideNav && !isClickBurger) {
-    nav.classList.remove('active');
-    burger.classList.remove('active');
-    document.body.classList.remove('lock');
-  }
-});
-
-const video = document.querySelector('.hero__video');
-video.playbackRate = 0.4;
-
-
-
-burger.addEventListener('click', () => {
-  burger.classList.toggle('active');
-  nav.classList.toggle('active');
-  document.body.classList.toggle('lock');
-  overlay.classList.toggle('active'); // 🔥
-});
-
+// удаляем закрытие по клику на overlay
 overlay.addEventListener('click', () => {
-  nav.classList.remove('active');
   burger.classList.remove('active');
-  document.body.classList.remove('lock');
+  nav.classList.remove('active');
   overlay.classList.remove('active');
+  body.classList.remove('lock');
 });
 
-const video = document.querySelector('.hero__video');
+// плавный скролл по ссылкам
+document.querySelectorAll('.header__nav').forEach(link => {
+  link.addEventListener('click', (e) => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
 
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
+    // закрытие меню после клика по ссылке
+    burger.classList.remove('active');
+    nav.classList.remove('active');
+    overlay.classList.remove('active');
+    body.classList.remove('lock');
 
-  video.style.transform = `translate(-50%, calc(-50% + ${scrollY * 0.2}px))`;
+    // скролл с offset
+    const yOffset = -80;
+    const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  });
 });

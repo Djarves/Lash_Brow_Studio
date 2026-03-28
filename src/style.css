@@ -22,7 +22,7 @@ body.lock {
   top: 0;
   left: 0;
   width: 100%;
-  background: none;
+  background: transparent;
   z-index: 10;
 }
 .header__logo img,
@@ -34,7 +34,11 @@ body.lock {
   height: 40px; /* размер логотипа */
   width: auto; /* сохраняет пропорции */
   display: block; /* убирает лишние отступы */
-  height: 30px;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.7));
+}
+
+.header__nav {
+  display: flex;
 }
 
 .header__container {
@@ -54,6 +58,8 @@ body.lock {
 }
 
 
+
+
 .header__nav.active {
   left: 0; /* выезжает */
 }
@@ -67,6 +73,7 @@ body.lock {
 .header__list {
   display: flex;
   list-style: none;
+  gap: 20px;
 }
 
 .header__item + .header__item {
@@ -92,8 +99,8 @@ body.lock {
   opacity: 0;
   pointer-events: none;
 
-  transition: 0.4s;
-  z-index: 1001;
+  transition: 0.3s;
+  z-index: 90;
 }
 
 .overlay.active {
@@ -103,7 +110,23 @@ body.lock {
 
 
 @media (max-width: 768px) {
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: transparent;
+}
 
+.header__logo img {
+  display: none;
+}
+
+.header.scrolled {
+  background: rgba(147, 114, 114, 0.7); /* темный фон */
+  backdrop-filter: blur(6px);
+}
   /* БУРГЕР */
   .header__burger {
     width: 30px;
@@ -112,14 +135,37 @@ body.lock {
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
-    z-index: 1003;
+    z-index: 1001;
+  }
+
+    /* МЕНЮ */
+  .header__nav {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 70%;
+    height: 100vh;
+    background: rgba(65, 8, 39, 0.6);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 80px 20px;
+    gap: 20px;
+    
+    transition: 0.3s;
+  }
+
+  .header__nav.active {
+    left: 0;
   }
 
   .header__burger span {
     height: 3px;
     width: 100%;
     background: white;
-    transition: 0.6s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+    transition: 0.4s;
   }
 
   /* КРЕСТИК */
@@ -135,27 +181,7 @@ body.lock {
     transform: rotate(-45deg) translate(5px, -5px);
   }
 
-  /* МЕНЮ */
-  .header__nav {
-    position: fixed;
-    top: 0;
-    left: -100%;
-    width: 70%;
-    height: 100vh;
-    background: rgba(65, 8, 39, 0.6);
-    backdrop-filter: blur(10px);
-    z-index: 1002;
-    display: flex;
-    flex-direction: column;
-    padding: 80px 20px;
-    gap: 20px;
 
-    transition: 0.3s;
-  }
-
-  .header__nav.active {
-    left: 0;
-  }
 
   /* УБИРАЕМ ГОРИЗОНТАЛЬНОЕ МЕНЮ */
   .header__list {
@@ -163,6 +189,7 @@ body.lock {
     gap: 20px;
   }
 }
+
 
 
 /* HERO + ОФФЕР */
@@ -194,7 +221,7 @@ body.lock {
 
   background: rgba(0, 0, 0, 0.45);
 
-  z-index: 1001;
+  z-index: 1;
 }
 
 /* контейнер */
