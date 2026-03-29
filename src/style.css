@@ -5,10 +5,25 @@
   box-sizing: border-box;
 }
 
+section {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+
 body {
   font-family: Arial, sans-serif;
   line-height: 1.0;
- 
+  background: linear-gradient(270deg, #0b0b0f, #1a0f2e, #140a1f);
+  background-size: 600% 600%;
+  animation: gradientMove 15s ease infinite;
+  color: white;  
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 body.lock {
@@ -57,8 +72,9 @@ body.lock {
   color: #333;
 }
 
-
-
+.name_web {
+  display: none;
+}
 
 .header__nav.active {
   left: 0; /* выезжает */
@@ -77,7 +93,7 @@ body.lock {
 }
 
 .header__item + .header__item {
-  margin-left: 1.5rem;
+  margin-left: 3rem;
 }
 
 .header__link {
@@ -119,8 +135,8 @@ body.lock {
   background: transparent;
 }
 
-.header__logo img {
-  display: none;
+.name_web {
+  display: block;
 }
 
 .header.scrolled {
@@ -168,7 +184,6 @@ body.lock {
     transition: 0.4s;
   }
 
-  /* КРЕСТИК */
   .header__burger.active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
@@ -181,16 +196,11 @@ body.lock {
     transform: rotate(-45deg) translate(5px, -5px);
   }
 
-
-
-  /* УБИРАЕМ ГОРИЗОНТАЛЬНОЕ МЕНЮ */
   .header__list {
     flex-direction: column;
     gap: 20px;
   }
 }
-
-
 
 /* HERO + ОФФЕР */
 .hero {
@@ -244,10 +254,11 @@ body.lock {
 
 /* заголовок */
 .hero__title {
-  font-size: 32px;
+  font-size: 40px;
   margin-bottom: 30px;
+  margin-top: 80px;
   letter-spacing: 1px;
-  color: #f853e9;
+  color: #78136f;
   text-shadow: 0 4px 15px #000000b3;
 }
 
@@ -278,7 +289,7 @@ body.lock {
   color: #090909;
   text-decoration: none;
   border-radius: 30px;
-  margin-top: 80px;
+  margin-top: 20px;
   transition: all 0.3s ease;
 }
 
@@ -314,8 +325,11 @@ body.lock {
 
 @media (min-width: 768px) {
   .hero__title {
-    font-size: 48px;
-  }
+  font-size: 32px;
+  margin-bottom: 30px;
+  margin-top: 150px;
+ 
+}
 
   .hero__subtitle {
     font-size: 30px;
@@ -338,8 +352,7 @@ body.lock {
 
 /* УСЛУГИ + ЦЕНЫ */
 .services {
-  padding: 3rem 1rem;
-  background-color: #fff;
+  padding: 80px 20px;
 }
 
 .services__container {
@@ -348,38 +361,96 @@ body.lock {
 }
 
 .services__title {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2rem;
+text-align: center;
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: #fff;
+}
+
+.services__btn {
+  display: inline-block;
+  margin: 15px;
+  padding: 10px 20px;
+  background: #980a79;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 20px;
+  z-index: 2;
+  position: relative;
+  transition: 0.3s;
+}
+
+.services__btn:hover {
+  background: #460121;
+  transform: scale(1.05);
+}
+
+.services__link {
+  display: none;
 }
 
 .services__list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
 }
 
 .services__item {
-  padding: 1.5rem;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  text-align: center;
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: 0.4s;
+  backdrop-filter: blur(10px);
+}
+
+.services__item:hover {
+  transform: translateY(-5px);
+}
+
+.services__img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
 
 .services__name {
   font-weight: bold;
   margin-bottom: 0.5rem;
+  padding: 15px;
 }
 
 .services__price {
   color: #ff6b6b;
   font-weight: bold;
+  padding: 0 15px 20px;
 }
+
+.services__item:hover {
+  transform: scale(1.05);
+  transition: 0.3s;
+}
+
+@media (max-width: 768px) {
+
+  /* убираем кнопку */
+  .services__btn {
+    display: none;
+  }
+
+  /* включаем кликабельную карточку */
+  .services__link {
+    display: block;
+    position: absolute;
+    inset: 0; 
+    z-index: 1;
+  }
+}
+
 
 /* ГАЛЕРЕЯ */
 .gallery {
   padding: 3rem 1rem;
-  background-color: #f9f9f9;
 }
 
 .gallery__title {
@@ -388,16 +459,132 @@ body.lock {
   font-size: 2rem;
 }
 
-.gallery__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
+.gallery__slider {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
 }
 
-.gallery__item {
-  background-color: #ddd;
-  height: 150px;
-  border-radius: 8px;
+.gallery__slide {
+  min-width: 100%; /* каждая картинка на весь экран */
+  height: 80vh; /* почти весь экран */
+  scroll-snap-align: center;
+  position: relative;
+}
+
+.gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;;
+}
+
+.gallery__item:hover .gallery__img {
+  transform: scale(1.1);
+}
+
+@media (min-width: 768px) {
+
+  .gallery__slider {
+    display: grid; /* 🔥 меняем flex на grid */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+
+    overflow: visible; /* убираем скролл */
+  }
+
+  .gallery__slide {
+    min-width: auto;
+    height: 250px; /* фикс высота */
+  }
+
+  .gallery__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* тут уже норм, потому что маленькие блоки */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  .gallery__img:hover {
+    transform: scale(1.05); /* 🔥 лёгкий ховер */
+  }
+}
+
+
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+
+  z-index: 1000;
+}
+
+.popup.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.popup__img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 20px;
+  animation: zoom 0.3s ease;
+}
+
+.popup__close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+}
+
+.popup__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  padding: 10px;
+  z-index: 1001;
+}
+
+.popup__arrow--left {
+  left: 20px;
+}
+
+.popup__arrow--right {
+  right: 20px;
+}
+
+@media (max-width: 768px) {
+  .popup__arrow {
+    display: none;
+  }
+}
+
+@keyframes zoom {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* О МАСТЕРЕ */
@@ -414,7 +601,6 @@ body.lock {
 /* ОТЗЫВЫ */
 .reviews {
   padding: 3rem 1rem;
-  background-color: #fff;
 }
 
 .reviews__title {
@@ -456,7 +642,7 @@ body.lock {
 
 /* FOOTER */
 .footer {
-  background-color: #f1f1f1;
+  background: transparent;
   padding: 1rem;
   text-align: center;
 }
